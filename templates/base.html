@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      {% block title %}
+        My Site
+      {% endblock %}
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <header>
+      <div className="navbar bg-base-300">
+        <button className="btn btn-ghost text-xl">Foshatifa</button>
+      </div>
+    </header>
+    <main>
+      {% block content %}
+        ali
+      {% endblock %}
+    </main>
+    <footer>
+      <p>Footer content here</p>
+    </footer>
+  </body>
+</html>
