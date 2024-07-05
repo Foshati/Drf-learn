@@ -97,6 +97,22 @@
         "documentation": {}
     },
     {
+        "label": "APIView",
+        "importPath": "rest_framework.views",
+        "description": "rest_framework.views",
+        "isExtraImport": true,
+        "detail": "rest_framework.views",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "rest_framework.response",
+        "description": "rest_framework.response",
+        "isExtraImport": true,
+        "detail": "rest_framework.response",
+        "documentation": {}
+    },
+    {
         "label": "sys",
         "kind": 6,
         "isExtraImport": true,
@@ -299,8 +315,17 @@
         "kind": 5,
         "importPath": "home.urls",
         "description": "home.urls",
-        "peekOfCode": "urlpatterns = [\n    # path(\"\", views.Home.as_view(), name=\"home\"), # ?  class based views render file html in django\n    # path(\"\", views.Home, name=\"home\")  # ? function based views endpoint\n    # path(\"\", views.Home.as_view(), name=\"home\")  # ? class based views endpoint\n]",
+        "peekOfCode": "urlpatterns = [\n    # path(\"\", views.Home.as_view(), name=\"home\"), # ?  class based views render file html in django\n    # path(\"\", views.Home, name=\"home\")  # ? function based views endpoint\n    # path(\"\", views.Home.as_view(), name=\"home\")  # ? class based views endpoint\n    # path(\"<str:name>/\", views.Home.as_view(), name=\"home\") # ?class based views drf get argument in request\n    # path(\"\", views.Home.as_view(), name=\"home\")  # ?class based views drf get .query_params in request\n     path(\"\", views.Home.as_view(), name=\"home\")  # ?class based views drf post .data in request\n]",
         "detail": "home.urls",
+        "documentation": {}
+    },
+    {
+        "label": "Home",
+        "kind": 6,
+        "importPath": "home.views",
+        "description": "home.views",
+        "peekOfCode": "class Home(APIView):\n    def get(self, request):\n        return Response({\"name\": \"sam\"})\n    def post(self, request):\n        name = request.data[\"name\"]\n        return Response({\"name\": name})\n#! test url-post: http://127.0.0.1:8000/\n#! json: {\"name\": \"sara\" }",
+        "detail": "home.views",
         "documentation": {}
     },
     {
