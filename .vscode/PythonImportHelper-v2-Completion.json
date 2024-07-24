@@ -424,7 +424,7 @@
         "kind": 2,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "def update_and_delete_UserProfile(request, id):\n    if request.method == \"PUT\":\n        user_get_id = UserProfile.objects.get(id=id)\n        data_serializers = UserProfileSerializers(data=user_get_id)\n        data_serializers.is_valid(raise_exception=True)\n        data_serializers.save()\n        return Response(data_serializers.data, status.HTTP_200_OK)",
+        "peekOfCode": "def update_and_delete_UserProfile(request, id):\n    if request.method == \"PUT\":\n        user_get_id = UserProfile.objects.get(id=id)\n        data_serializers = UserProfileSerializers(data=user_get_id)\n        data_serializers.is_valid(raise_exception=True)\n        data_serializers.save()\n        return Response(data_serializers.data, status.HTTP_200_OK)\n    if request.method == \"DELETE\":\n        user_get_id = UserProfile.objects.get(id=id)\n        user_get_id.delete()",
         "detail": "api.views",
         "documentation": {}
     },

@@ -29,4 +29,7 @@ def update_and_delete_UserProfile(request, id):
         data_serializers.is_valid(raise_exception=True)
         data_serializers.save()
         return Response(data_serializers.data, status.HTTP_200_OK)
- 
+    if request.method == "DELETE":
+        user_get_id = UserProfile.objects.get(id=id)
+        user_get_id.delete()
+        return Response(status.HTTP_204_NO_CONTENT)
