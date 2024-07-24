@@ -228,6 +228,14 @@
         "documentation": {}
     },
     {
+        "label": "CreateUserProfileSerializers",
+        "importPath": "api.serializers",
+        "description": "api.serializers",
+        "isExtraImport": true,
+        "detail": "api.serializers",
+        "documentation": {}
+    },
+    {
         "label": "get_asgi_application",
         "importPath": "django.core.asgi",
         "description": "django.core.asgi",
@@ -372,7 +380,16 @@
         "kind": 6,
         "importPath": "api.serializers",
         "description": "api.serializers",
-        "peekOfCode": "class UserProfileSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = UserProfile\n        fields = \"__all__\"",
+        "peekOfCode": "class UserProfileSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = UserProfile\n        fields = \"__all__\"\nclass CreateUserProfileSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = UserProfile\n        fields = (\n            \"name\",\n            \"age\",",
+        "detail": "api.serializers",
+        "documentation": {}
+    },
+    {
+        "label": "CreateUserProfileSerializers",
+        "kind": 6,
+        "importPath": "api.serializers",
+        "description": "api.serializers",
+        "peekOfCode": "class CreateUserProfileSerializers(serializers.ModelSerializer):\n    class Meta:\n        model = UserProfile\n        fields = (\n            \"name\",\n            \"age\",\n            \"bio\",\n            \"email\",\n        )",
         "detail": "api.serializers",
         "documentation": {}
     },
@@ -390,7 +407,7 @@
         "kind": 2,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "def ListProfile(request):\n    data = UserProfile.objects.all()\n    data_serializers = UserProfileSerializers(data, many=True)\n    return Response(data_serializers.data)",
+        "peekOfCode": "def ListProfile(request):\n    if request.method == \"GET\":\n        data = UserProfile.objects.all()\n        data_serializers = UserProfileSerializers(data, many=True)\n        return Response(data_serializers.data)\n    if request.method == \"POST\":\n        req_data = request.data\n        data_serializers = CreateUserProfileSerializers(data=req_data)\n        data_serializers.is_valid(raise_exception=True)\n        data_serializers.save()",
         "detail": "api.views",
         "documentation": {}
     },
