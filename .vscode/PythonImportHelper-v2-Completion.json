@@ -124,6 +124,14 @@
         "documentation": {}
     },
     {
+        "label": "status",
+        "importPath": "rest_framework",
+        "description": "rest_framework",
+        "isExtraImport": true,
+        "detail": "rest_framework",
+        "documentation": {}
+    },
+    {
         "label": "UserProfile",
         "importPath": "api.models",
         "description": "api.models",
@@ -398,7 +406,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [path(\"\", views.ListProfile, name=\"ListProfile\")]",
+        "peekOfCode": "urlpatterns = [\n    path(\"api/\", views.ListProfile, name=\"ListProfile\"),\n    path(\n        \"api/<id>/\",\n        views.update_and_delete_UserProfile,\n        name=\"update_and_delete_UserProfile\",\n    ),\n]",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -408,6 +416,15 @@
         "importPath": "api.views",
         "description": "api.views",
         "peekOfCode": "def ListProfile(request):\n    if request.method == \"GET\":\n        data = UserProfile.objects.all()\n        data_serializers = UserProfileSerializers(data, many=True)\n        return Response(data_serializers.data)\n    if request.method == \"POST\":\n        req_data = request.data\n        data_serializers = CreateUserProfileSerializers(data=req_data)\n        data_serializers.is_valid(raise_exception=True)\n        data_serializers.save()",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "update_and_delete_UserProfile",
+        "kind": 2,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "def update_and_delete_UserProfile(request, id):\n    if request.method == \"PUT\":\n        user_get_id = UserProfile.objects.get(id=id)\n        data_serializers = UserProfileSerializers(data=user_get_id)\n        data_serializers.is_valid(raise_exception=True)\n        data_serializers.save()\n        return Response(data_serializers.data, status.HTTP_200_OK)",
         "detail": "api.views",
         "documentation": {}
     },
@@ -578,7 +595,7 @@
         "kind": 5,
         "importPath": "core.urls",
         "description": "core.urls",
-        "peekOfCode": "urlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"\", include(\"home.urls\")),\n    path(\"api/\", include(\"api.urls\")),\n]",
+        "peekOfCode": "urlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"\", include(\"home.urls\")),\n    path(\"\", include(\"api.urls\")),\n]",
         "detail": "core.urls",
         "documentation": {}
     },
