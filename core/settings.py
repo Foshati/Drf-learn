@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "home",
     "api",
+    "card.apps.CardConfig",
 ]
 
 MIDDLEWARE = [
