@@ -1,37 +1,39 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from api.models import UserProfile
-from api.serializers import UserProfileSerializers, CreateUserProfileSerializers
+from api.serializers import CreateUserProfileSerializers, UserProfileSerializers
 
 
-@api_view(["GET", "POST"])
-def ListProfile(request):
-    if request.method == "GET":
-        data = UserProfile.objects.all()
-        data_serializers = UserProfileSerializers(data, many=True)
-        return Response(data_serializers.data)
-    if request.method == "POST":
-        req_data = request.data
-        data_serializers = CreateUserProfileSerializers(data=req_data)
-        data_serializers.is_valid(raise_exception=True)
-        data_serializers.save()
-        return Response(data_serializers.data, status=201)
+class UserProfileView(APIView):
+    def post(self, request):
+        serializer = CreateUserProfileSerializers(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def get(self, request, id=None):
+        if id:
+            user_profile = get_object_or_404(UserProfile, id=id)
+            serializer = UserProfileSerializers(user_profile)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            user_profiles = UserProfile.objects.all()
+            serializer = UserProfileSerializers(user_profiles, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(["PUT", "DELETE"])
-def update_and_delete_UserProfile(request, id):
-    if request.method == "PUT":
-        user_get_id = get_object_or_404(UserProfile, id=id)
-        data_serializers = UserProfileSerializers(
-            data=request.data, instance=user_get_id
+    def put(self, request, id):
+        user_profile = get_object_or_404(UserProfile, id=id)
+        serializer = CreateUserProfileSerializers(
+            instance=user_profile, data=request.data
         )
-        data_serializers.is_valid(raise_exception=True)
-        data_serializers.save()
-        return Response(data_serializers.data, status.HTTP_200_OK)
-    if request.method == "DELETE":
-        user_get_id = get_object_or_404(UserProfile, id=id)
-        user_get_id.delete()
-        return Response(status.HTTP_204_NO_CONTENT)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, id):
+        user_profile = get_object_or_404(UserProfile, id=id)
+        user_profile.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
