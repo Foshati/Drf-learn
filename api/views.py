@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -8,6 +10,8 @@ from api.serializers import CreateUserProfileSerializers, UserProfileSerializers
 
 
 class UserProfileView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request):
         serializer = CreateUserProfileSerializers(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -37,3 +41,18 @@ class UserProfileView(APIView):
         user_profile = get_object_or_404(UserProfile, id=id)
         user_profile.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ListUserProfileView(ListAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializers
+
+
+class CreateUserProfileView(CreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = CreateUserProfileSerializers
+
+
+class ListCreateUserProfileView(ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializers

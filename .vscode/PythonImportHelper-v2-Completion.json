@@ -236,6 +236,38 @@
         "documentation": {}
     },
     {
+        "label": "CreateAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
+        "isExtraImport": true,
+        "detail": "rest_framework.generics",
+        "documentation": {}
+    },
+    {
+        "label": "ListAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
+        "isExtraImport": true,
+        "detail": "rest_framework.generics",
+        "documentation": {}
+    },
+    {
+        "label": "ListCreateAPIView",
+        "importPath": "rest_framework.generics",
+        "description": "rest_framework.generics",
+        "isExtraImport": true,
+        "detail": "rest_framework.generics",
+        "documentation": {}
+    },
+    {
+        "label": "IsAuthenticated",
+        "importPath": "rest_framework.permissions",
+        "description": "rest_framework.permissions",
+        "isExtraImport": true,
+        "detail": "rest_framework.permissions",
+        "documentation": {}
+    },
+    {
         "label": "Response",
         "importPath": "rest_framework.response",
         "description": "rest_framework.response",
@@ -470,7 +502,7 @@
         "kind": 5,
         "importPath": "api.urls",
         "description": "api.urls",
-        "peekOfCode": "urlpatterns = [\n    path(\"api/\", views.UserProfileView.as_view(), name=\"UserProfileView\"),\n    path(\n        \"api/<int:id>/\", views.UserProfileView.as_view(), name=\"UserProfileDetailView\"\n    ),\n]",
+        "peekOfCode": "urlpatterns = [\n    path(\"api/\", views.UserProfileView.as_view(), name=\"UserProfileView\"),\n    path(\n        \"api/<int:id>/\", views.UserProfileView.as_view(), name=\"UserProfileDetailView\"\n    ),\n    path(\"api/list/\", views.ListUserProfileView.as_view(), name=\"listUserProfile\"),\n    path(\n        \"api/create/\", views.CreateUserProfileView.as_view(), name=\"CreateUserProfile\"\n    ),\n    path(",
         "detail": "api.urls",
         "documentation": {}
     },
@@ -479,7 +511,34 @@
         "kind": 6,
         "importPath": "api.views",
         "description": "api.views",
-        "peekOfCode": "class UserProfileView(APIView):\n    def post(self, request):\n        serializer = CreateUserProfileSerializers(data=request.data)\n        serializer.is_valid(raise_exception=True)\n        serializer.save()\n        return Response(serializer.data, status=status.HTTP_201_CREATED)\n    def get(self, request, id=None):\n        if id:\n            user_profile = get_object_or_404(UserProfile, id=id)\n            serializer = UserProfileSerializers(user_profile)",
+        "peekOfCode": "class UserProfileView(APIView):\n    permission_classes = (IsAuthenticated,)\n    def post(self, request):\n        serializer = CreateUserProfileSerializers(data=request.data)\n        serializer.is_valid(raise_exception=True)\n        serializer.save()\n        return Response(serializer.data, status=status.HTTP_201_CREATED)\n    def get(self, request, id=None):\n        if id:\n            user_profile = get_object_or_404(UserProfile, id=id)",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "ListUserProfileView",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class ListUserProfileView(ListAPIView):\n    queryset = UserProfile.objects.all()\n    serializer_class = UserProfileSerializers\nclass CreateUserProfileView(CreateAPIView):\n    queryset = UserProfile.objects.all()\n    serializer_class = CreateUserProfileSerializers\nclass ListCreateUserProfileView(ListCreateAPIView):\n    queryset = UserProfile.objects.all()\n    serializer_class = UserProfileSerializers",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "CreateUserProfileView",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class CreateUserProfileView(CreateAPIView):\n    queryset = UserProfile.objects.all()\n    serializer_class = CreateUserProfileSerializers\nclass ListCreateUserProfileView(ListCreateAPIView):\n    queryset = UserProfile.objects.all()\n    serializer_class = UserProfileSerializers",
+        "detail": "api.views",
+        "documentation": {}
+    },
+    {
+        "label": "ListCreateUserProfileView",
+        "kind": 6,
+        "importPath": "api.views",
+        "description": "api.views",
+        "peekOfCode": "class ListCreateUserProfileView(ListCreateAPIView):\n    queryset = UserProfile.objects.all()\n    serializer_class = UserProfileSerializers",
         "detail": "api.views",
         "documentation": {}
     },

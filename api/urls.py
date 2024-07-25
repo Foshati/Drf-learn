@@ -19,4 +19,13 @@ urlpatterns = [
     path(
         "api/<int:id>/", views.UserProfileView.as_view(), name="UserProfileDetailView"
     ),
+    path("api/list/", views.ListUserProfileView.as_view(), name="listUserProfile"),
+    path(
+        "api/create/", views.CreateUserProfileView.as_view(), name="CreateUserProfile"
+    ),
+    path(
+        "api/list-create/",
+        views.ListCreateUserProfileView.as_view(),
+        name="ListCreateUserProfile",
+    ),
 ]
